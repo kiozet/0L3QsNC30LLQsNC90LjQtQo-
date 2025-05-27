@@ -1,34 +1,33 @@
-/* Dashboard.css */
-
 .dashboard-page {
-display: flex;
-flex-direction: column;
-min-height: 100vh;
-background-color: #f5f5f5;
-font-family: 'Arial', sans-serif;
+    margin-top: 7vh;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+    font-family: 'Arial', sans-serif;
 }
 
 .dashboard-container {
-max-width: 800px;
-margin: 2rem auto;
-padding: 2rem;
-background: white;
-border-radius: 8px;
-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-flex-grow: 1;
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
 }
 
 .dashboard-container h1 {
-color: #2c3e50;
-margin-bottom: 2rem;
-text-align: center;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    text-align: center;
 }
 
 .user-profile {
-padding: 1.5rem;
-border: 1px solid #e0e0e0;
-border-radius: 6px;
-background-color: #fafafa;
+    padding: 1.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background-color: #fafafa;
 }
 
 .user-info h2 {
@@ -37,36 +36,36 @@ margin-bottom: 1rem;
 }
 
 .user-info p {
-margin: 0.5rem 0;
-color: #555;
+    margin: 0.5rem 0;
+    color: #555;
 }
 
 .dashboard-actions {
-margin-top: 2rem;
-display: flex;
-justify-content: flex-end;
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .logout-btn {
-padding: 0.5rem 1.5rem;
-background-color: #e74c3c;
-color: white;
-border: none;
-border-radius: 4px;
-cursor: pointer;
-font-size: 1rem;
-transition: background-color 0.3s;
+    padding: 0.5rem 1.5rem;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
 }
 
 .logout-btn:hover {
-background-color: #c0392b;
+    background-color: #c0392b;
 }
 
 .loading {
-text-align: center;
-padding: 2rem;
-font-size: 1.2rem;
-color: #7f8c8d;
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.2rem;
+    color: #7f8c8d;
 }
 
 /* Адаптивность для мобильных устройств */

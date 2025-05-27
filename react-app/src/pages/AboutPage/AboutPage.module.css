@@ -2,7 +2,6 @@
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
-    
 }
 
 .team {
@@ -160,9 +159,60 @@
     margin-left: 30px;
     border: 1px solid #2D78D3;
     transition: all 0.3s ease;
+    color: white;
 }
 
 .timelineContent h3 {
     margin-top: 0;
     color: #48B8FB;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.inputError {
+  border-color: #ff6b6b;
+  background-color: rgba(255, 107, 107, 0.1);
+}
+
+.errorText {
+  color: #ff6b6b;
+  font-size: 0.8rem;
+  margin-top: 5px;
+  display: block;
+}
+
+.formMessageError {
+  color: #ff6b6b;
+  text-align: center;
+  margin-top: 15px;
+  padding: 10px;
+  background-color: rgba(255, 107, 107, 0.1);
+  border-radius: 5px;
+}
+
+.formMessageSuccess {
+  color: #51cf66;
+  text-align: center;
+  margin-top: 15px;
+  padding: 10px;
+  background-color: rgba(81, 207, 102, 0.1);
+  border-radius: 5px;
+}
+
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

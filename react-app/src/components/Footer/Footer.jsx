@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className={styles.footer}>
       <div className={styles.container}>
         <p className={styles.copyright}>© 2024 - 2025 0L3QsNC30LLQsNC90LjQtQo=. Все права защищены.</p>
-        <p className={styles.email}>kakayatopochta@project.ru</p>
+        <p className={styles.email}>WatercraftDetector@mail.ru</p>
       </div>
     </footer>
   );

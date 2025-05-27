@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import styles from './Header.module.css';
+import { ReactComponent as Logo } from '../../assets/navlogo.svg'
 
 const Header = () => {
   const location = useLocation();
@@ -21,38 +22,32 @@ const Header = () => {
       <div className={styles.headerContainer}>
         <Link to="/" className={styles.logolink}>
             <div className={styles.logo}>
-                <img src="/images/sputnik.png" alt="Спутник" />
+                <Logo className={styles.logoSvg} />
             </div>
             <div className={styles.siteName}>Watercraft Detector</div>
         </Link>
         <nav className={styles.nav}>
           {location.pathname !== '/about' && (
-            <button className={styles.navButton}>
-              <Link to="/about" className={styles.navLink}>
-                О нас
-              </Link>
-            </button>
-          )}
-          <button className={styles.navButton}>
-            <Link to="#tech" className={styles.navLink}>
-              Технологии
+            <Link to="/about" className={`${styles.navButton} ${styles.navLink}`}>
+              О нас
             </Link>
-          </button>
+          )}
+          {location.pathname !== '/guide' && (
+            <Link to="/guide" className={`${styles.navButton} ${styles.navLink}`}>
+              Инструкция
+            </Link>
+          )}
           {isAuthenticated ? (
             location.pathname !== '/dashboard' && (
-              <button className={styles.navButton}>
-                <Link to="/dashboard" className={styles.navLink}>
-                  Личный кабинет
-                </Link>
-              </button>
+              <Link to="/dashboard" className={`${styles.navButton} ${styles.navLink}`}>
+                Личный кабинет
+              </Link>
             )
           ) : (
             location.pathname !== '/auth' && (
-              <button className={styles.navButton}>
-                <Link to="/auth" className={styles.navLink}>
-                  Вход/Регистрация
-                </Link>
-              </button>
+              <Link to="/auth" className={`${styles.navButton} ${styles.navLink}`}>
+                Регистрация
+              </Link>
             )
           )}
         </nav>

@@ -1,6 +1,8 @@
-import React, { useState, useRef } from 'react';
-import axios from 'axios'; // Импортируем axios
+import { useState, useRef } from 'react';
+import { apiService } from '../../services/apiService';
+import ImageViewer from '../ImageViewer/ImageViewer';
 import styles from './FileUpload.module.css';
+
 
 const FileUpload = () => {
   const [imagePreview, setImagePreview] = useState('');
@@ -8,8 +10,10 @@ const FileUpload = () => {
   const [isDraggingImage, setIsDraggingImage] = useState(false);
   const [isDraggingJson, setIsDraggingJson] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [resultImage, setResultImage] = useState('');
+  const [result, setResult] = useState(null);
   const [message, setMessage] = useState({ text: '', type: '' }); 
+  const [showDetails, setShowDetails] = useState(false);
+  const [viewerImage, setViewerImage] = useState(null);
   const imageInputRef = useRef(null);
   const jsonInputRef = useRef(null);
 
@@ -74,8 +78,8 @@ const FileUpload = () => {
   });
 
   const handleSubmit = async () => {
-    if (!imagePreview || !jsonFile) {
-      showMessage('Пожалуйста, загрузите изображение и JSON файл', 'error');
+    if (!imagePreview || jsonFile) {
+      showMessage('Пожалуйста, загрузите хотя бы изображение', 'error');
       return;
     }
 
@@ -84,26 +88,43 @@ const FileUpload = () => {
     formData.append('json', jsonFile);
 
     setIsLoading(true);
-    setMessage({ text: '', type: '' });
+    setMessage({ text: 'Обработка изображения', type: 'info' });
 
     try {
-      const response = await axios.post('http://localhost:8000/api/fileupload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        }, 
-        timeout: 30000,
+      const result = await apiService.uploadFiles(formData);
+      
+      setResult({
+        originalImage: imagePreview,
+        processedImage: result.imageUrl,
+        vessels: result.vessels,
+        meta: {
+          processingTime: result.processingTime
+        }
       });
-
-      setResultImage(response.data.imageUrl);
-      showMessage('Файлы успешно отправлены! Обработка завершена.', 'success');
-
+      
+      showMessage(
+        `Анализ завершен за ${result.processingTime}! Найдено судов: ${result.vessels.length}`,
+        'success'
+      );
     } catch (error) {
       console.error('Ошибка:', error);
-      const errorMsg = error.response?.data?.message || 'Произошла ошибка при отправке файлов';
-      showMessage(errorMsg, 'error');
+      showMessage(
+        error.message || 'Произошла ошибка при обработке изображения',
+        'error'
+      );
     } finally {
       setIsLoading(false);
     }
+  };
+  const handleVesselClick = (vessel) => {
+        console.log('Selected vessel:', vessel);
+  };
+  const openImageViewer = (imageSrc) => {
+    setViewerImage(imageSrc);
+  };
+
+  const closeImageViewer = () => {
+    setViewerImage(null);
   };
 
   return (
@@ -118,7 +139,6 @@ const FileUpload = () => {
           </p>
         </div>
 
-        {/* Поле загрузки изображения */}
         <div 
           className={`${styles.fileUpload} ${isDraggingImage ? styles.dragging : ''}`}
           {...handleDragEvents('image')}
@@ -132,15 +152,13 @@ const FileUpload = () => {
             onChange={(e) => handleImageChange(e.target.files[0])}
           />
           <label className={styles.fileLabel}>Выберите изображение</label>
-          <p className={styles.fileHint}>или перетащите его сюда</p>
+          <p className={styles.fileHint}>или перетащите в эту область</p>
         </div>
 
-        {/* Поле загрузки JSON */}
         <div 
           className={`${styles.fileUpload} ${isDraggingJson ? styles.dragging : ''}`}
           {...handleDragEvents('json')}
           onClick={() => jsonInputRef.current.click()}
-          style={{ marginTop: '20px' }}
         >
           <input 
             type="file" 
@@ -150,14 +168,13 @@ const FileUpload = () => {
             onChange={(e) => handleJsonChange(e.target.files[0])}
           />
           <label className={styles.fileLabel}>Выберите JSON файл</label>
-          <p className={styles.fileHint}>или перетащите его сюда</p>
+          <p className={styles.fileHint}>или перетащите в эту область</p>
         </div>
 
-        {/* Кнопка отправки с индикатором загрузки */}
         <button 
           className={styles.submitButton}
           onClick={handleSubmit}
-          disabled={!imagePreview || !jsonFile || isLoading}
+          disabled={!imagePreview || jsonFile || isLoading}
         >
           {isLoading ? (
             <>
@@ -175,25 +192,68 @@ const FileUpload = () => {
         )}
       </div>
 
-      {/* Превью загруженного изображения */}
-      {imagePreview && (
-        <div className={styles.rightColumn}>
-          <div className={styles.preview}>
-          <h3>Загруженное изображение:</h3>
-            <img src={imagePreview} alt="Загруженное изображение" />
-          </div>
-        </div>
-      )}
+      <div className={styles.rightColumn}>
+          {imagePreview && (
+              <div className={styles.previewSection}>
+                  <h3>Загруженное изображение:</h3>
+                  <div className={styles.imageContainer}>
+                      <img 
+                          src={imagePreview} 
+                          alt="Загруженное изображение" 
+                          className={styles.previewImage}
+                          onClick={() => openImageViewer(imagePreview)}
+                      />
+                  </div>
+              </div>
+          )}
 
-      {/* Результат анализа (если есть) */}
-      {resultImage && (
-        <div className={styles.rightColumn}>
-          <div className={styles.preview}>
-            <h3>Результат анализа:</h3>
-            <img src={resultImage} alt="Результат анализа" />
-          </div>
-        </div>
-      )}
+          {result && (
+              <div className={styles.resultsSection}>
+                  <h3>Результаты анализа:</h3>
+                    <div className={styles.imageContainer}>
+                        <img 
+                            src={result.processedImage} 
+                            alt="Обработанное изображение" 
+                            className={styles.previewImage}
+                            onClick={() => openImageViewer(result.processedImage)}
+                        />
+                        <div className={styles.imageLabel}>Результат</div>
+                    </div>
+
+                  <button 
+                      className={styles.detailsButton}
+                      onClick={() => setShowDetails(!showDetails)}
+                  >
+                      {showDetails ? 'Скрыть детали' : 'Показать детали'}
+                  </button>
+
+                  {showDetails && (
+                      <div className={styles.vesselsList}>
+                          <h4>Обнаруженные суда:</h4>
+                          <ul>
+                              {result.vessels.map((vessel, index) => (
+                                  <li 
+                                      key={index} 
+                                      className={styles.vesselItem}
+                                      onClick={() => handleVesselClick(vessel)}
+                                  >
+                                      <span className={styles.vesselType}>{vessel.type}</span>
+                                      <span className={styles.vesselConfidence}>
+                                          Точность: {(vessel.confidence * 100).toFixed(1)}%
+                                      </span>
+                                  </li>
+                              ))}
+                          </ul>
+                      </div>
+                  )}
+              </div>
+          )}
+      </div>
+      <ImageViewer 
+        src={viewerImage} 
+        alt="Увеличенное изображение"
+        onClose={closeImageViewer}
+      />
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import './AuthPage1.css';
+import './AuthPage.css';
 import '../../styles/global.css';
 
 const AuthPage = () => {
@@ -175,7 +175,7 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="page">
+    <div className="auth-page">
       <Header />
       <div className="app">
         <div className="auth-container">
