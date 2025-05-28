@@ -8,21 +8,22 @@ ENV PYTHONUNBUFFERED 1
 # Создаем и переходим в рабочую директорию
 WORKDIR /app
 
-# Устанавливаем зависимости
-COPY pyproject.toml poetry.lock README.md /app/
-RUN pip install poetry && \
+# Копируем только файлы зависимостей (для эффективного кэширования)
+COPY pyproject.toml poetry.lock README.md ./
+
+# Устанавливаем Poetry и зависимости
+RUN pip install --upgrade pip && \
     pip install poetry gunicorn && \
     poetry config virtualenvs.create false && \
-    poetry install --no-interaction --no-ansi || true && \
-    pip install -U pip setuptools wheel
+    poetry install --no-interaction --no-ansi --no-root
 
-# Копируем остальные файлы проекта
-COPY .. /app/
+# Копируем весь проект (кроме файлов из .dockerignore)
+COPY . .
 
 # Собираем статику (если нужно)
 RUN python manage.py collectstatic --noinput
 
-# Открываем порт, который будет использоваться приложением
+# Открываем порт
 EXPOSE 8000
 
 # Команда для запуска сервера

@@ -9,7 +9,7 @@ class Photo(models.Model):
     image = models.ImageField(upload_to='photos/')
     edited_image_name = models.CharField(max_length=255, blank=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='photos')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='photos', null=True, blank=True)
 
     def __str__(self):
         return f"{self.title} (User: {self.user.username})"
