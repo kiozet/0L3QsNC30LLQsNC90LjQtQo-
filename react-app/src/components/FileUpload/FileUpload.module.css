@@ -1,12 +1,15 @@
 .content {
     display: flex;
-    padding: 20px 57px;
+    flex-direction: column;
+    padding: 1.25rem 5%;
     color: white;
-    gap: 40px;
+    gap: 2rem;
+    max-width: 1200px;
 }
 
 .leftColumn {
-    flex: 0 0 min(600px, 100%);
+    flex: 1;
+    width: 100%;
 }
 
 .rightColumn {
@@ -15,9 +18,9 @@
 }
 
 .leftText {
-    width: 672px;
-    margin-left: 30px;
-    margin-right: 100px;
+    width: 100%;
+    max-width: 672px;
+    margin: 0 0 2rem 0;
 }
 
 .leftTextFirst {
@@ -39,6 +42,7 @@
 .fileUpload {
     flex: 1;
     border: 2px dashed #007BFF;
+    border-radius: 20px;
     padding: 20px;
     text-align: center;
     cursor: pointer;
@@ -47,8 +51,9 @@
     flex-direction: column;
     justify-content: center;
     margin-right: 100px;
-    margin-top: 50px;
-    height: 150px;
+    margin-top: 20px;
+    min-height: 150px;
+    height: auto;
 }
 
 .fileUpload.dragging {
@@ -88,4 +93,209 @@
     border-radius: 5px;
     object-fit: contain;
     height: auto;
+}
+
+.submitButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Geologica', sans-serif;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.submitButton:hover {
+    background-color: #0056b3;
+}
+
+.submitButton:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.spinner {
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 3px solid white;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.message {
+    margin-top: 20px;
+    padding: 12px;
+    border-radius: 5px;
+    font-family: 'Geologica', sans-serif;
+    font-size: 14px;
+    text-align: center;
+}
+  
+.message.success {
+    background-color: rgba(40, 167, 69, 0.2);
+    border: 1px solid #28a745;
+    color: #28a745;
+    max-width: 672px;
+}
+  
+.message.error {
+    background-color: rgba(220, 53, 69, 0.2);
+    border: 1px solid #dc3545;
+    color: #dc3545;
+    max-width: 672px;
+}
+  
+.message.info {
+    background-color: rgba(23, 162, 184, 0.2);
+    border: 1px solid #17a2b8;
+    color: #17a2b8;
+    max-width: 672px;
+}
+  
+.preview h3 {
+    font-family: 'Geologica', sans-serif;
+    padding-bottom: 10px;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.previewSection, .resultsSection {
+    background: rgba(20, 48, 65, 0.7);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.previewSection:hover, .resultsSection:hover {
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
+}
+
+.imageContainer {
+    margin-top: 5%;
+    position: relative;
+    flex: 1;
+    min-width: 250px;
+}
+
+.previewImage {
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease;
+    cursor: zoom-in;
+}
+
+.previewImage:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 15px rgba(0, 123, 255, 0.5);
+}
+
+.imageLabel {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.detailsButton {
+    margin-top: 15px;
+    padding: 8px 16px;
+    background: transparent;
+    color: #007BFF;
+    border: 1px solid #007BFF;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Geologica', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.detailsButton:hover {
+    background: rgba(0, 123, 255, 0.1);
+}
+
+.vesselsList {
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+.vesselsList h4 {
+    margin-bottom: 10px;
+    color: #B1BECE;
+}
+
+.vesselItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.vesselItem:hover {
+    background: rgba(0, 123, 255, 0.2);
+    transform: translateX(5px);
+}
+
+.vesselType {
+    font-weight: 500;
+}
+
+.vesselConfidence {
+    color: #B1BECE;
+    font-size: 14px;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+.loadingPlaceholder {
+    animation: pulse 1.5s infinite;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+@media (min-width: 768px) {
+    .content {
+        flex-direction: row;
+        padding-left: 8%;
+    }
+    .leftText {
+        width: 672px;
+    }
+    .fileUpload {
+        width: 672px;
+    }
 }

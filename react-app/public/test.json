@@ -1,0 +1,15 @@
+{
+  "coordinates": {
+    "top_left": {"lat": 51.887, "lon": 4.265},
+    "bottom_right": {"lat": 51.882, "lon": 4.275}
+  },
+  "detections": [
+    {
+      "type": "container_ship",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[4.2701, 51.8865], [4.2703, 51.8864]]]
+      }
+    }
+  ]
+}
