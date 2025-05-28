@@ -31,11 +31,12 @@ class UserSerializer(serializers.ModelSerializer):
 
 class PhotoSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
+    detections = serializers.JSONField(read_only=True)
 
     class Meta:
         model = Photo
-        fields = ['id', 'title', 'image', 'edited_image_name', 'uploaded_at', 'user']
-        read_only_fields = ['uploaded_at', 'edited_image_name', 'user']
+        fields = ['id', 'title', 'image', 'edited_image_name', 'uploaded_at', 'user', 'detections']
+        read_only_fields = ['uploaded_at', 'edited_image_name', 'user', 'detections']
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):

@@ -9,6 +9,7 @@ from .serializers import PhotoSerializer, UserSerializer, CustomTokenObtainPairS
 from django.contrib.auth import get_user_model
 import os
 from datetime import datetime
+from .services import ImageProcessor
 
 User = get_user_model()
 
@@ -29,10 +30,23 @@ class PhotoViewSet(viewsets.ModelViewSet):
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         edited_image_name = f"{original_name}_edited_{timestamp}{ext}"
 
-        serializer.save(
+        # Сначала сохраняем фото
+        photo = serializer.save(
             user=self.request.user,
             edited_image_name=edited_image_name
         )
+
+        # Затем обрабатываем через YOLOv5
+        try:
+            processor = ImageProcessor()
+            detections = processor.get_bounding_box_corners(photo.image.path)
+
+            # Обновляем запись с результатами детекции
+            photo.detections = detections
+            photo.save()
+        except Exception as e:
+            print(f"Image processing failed: {str(e)}")
+            # Можно добавить логирование ошибки
 
 
 class RegisterView(APIView):
